@@ -48,7 +48,7 @@ process_this_frame = True
 
 
 
-file = open('attendance/' + current_date + '.csv', 'w+', newline='')
+file = open('attendance/' + current_date + '.csv', 'a+', newline='')
 lnwriter = csv.writer(file)
 
 while True:
