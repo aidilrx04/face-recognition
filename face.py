@@ -34,7 +34,7 @@ for image in images:
     
 
 
-student_presents = {}
+student_presents = []
 
 current_date = datetime.now().strftime('%Y-%m-%d')
 
@@ -48,9 +48,10 @@ process_this_frame = True
 
 file_to_write = 'attendance/' + current_date + '.csv'
 
-# read file to load shits
-content = open(file_to_write).readlines()
-student_presents = list(set(map(lambda x: x.split(',')[0], content)))
+if os.path.isfile(file_to_write):
+    # read file to load shits
+    content = open(file_to_write,'r').readlines()
+    student_presents = list(set(map(lambda x: x.split(',')[0], content)))
 
 file = open(file_to_write, 'a+', newline='')
 lnwriter = csv.writer(file)
