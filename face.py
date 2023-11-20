@@ -21,6 +21,7 @@ images = [image for image in files if os.path.isfile(os.path.join(images_path, i
 # Create arrays of known face encodings and their names
 known_face_encodings = []
 known_face_names = []
+known_face_ids = []
 
 # encode all images in images folder
 for image in images:
@@ -29,8 +30,12 @@ for image in images:
     image_load = face_recognition.load_image_file(os.path.join(images_path, image))
     image_encoding = face_recognition.face_encodings(image_load)[0]
     
+    name = name.split(' - ')
+    name[1] = name[1].upper()
+    
     known_face_encodings.append(image_encoding)
-    known_face_names.append(name)
+    known_face_names.append(name[0])
+    known_face_ids.append(name[1])
     
 
 
@@ -78,23 +83,27 @@ while True:
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
         face_names = []
+        face_ids = []
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
             name = "Unknown"
+            id = ''
     
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
+                id = known_face_ids[best_match_index]
 
             face_names.append(name)
+            face_ids.append(id)
 
     process_this_frame = not process_this_frame
 
 
     # Display the results
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
+    for (top, right, bottom, left), name, id in zip(face_locations, face_names, face_ids):
         
         color = (0, 0,255)
         if name in student_presents:
@@ -115,6 +124,11 @@ while True:
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), color, cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+        
+        # Draw id rectangle
+        cv2.rectangle(frame, (left, bottom + 35), (right, bottom), color, cv2.FILLED)
+        # draw the id
+        cv2.putText(frame, id, (left + 6, bottom + 25), font, .6, (255,255,255), 1)
         
         if name in known_face_names:
             if name not in student_presents:
