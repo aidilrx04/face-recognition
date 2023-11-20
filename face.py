@@ -132,7 +132,7 @@ while True:
         
         if name in known_face_names:
             if name not in student_presents:
-                lnwriter.writerow([name, now])
+                lnwriter.writerow([id, name, now])
                 student_presents.append(name)
 
             
