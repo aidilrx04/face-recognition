@@ -56,7 +56,7 @@ file_to_write = 'attendance/' + current_date + '.csv'
 if os.path.isfile(file_to_write):
     # read file to load shits
     content = open(file_to_write,'r').readlines()
-    student_presents = list(set(map(lambda x: x.split(',')[0], content)))
+    student_presents = list(set(map(lambda x: x.split(',')[1], content)))
 
 file = open(file_to_write, 'a+', newline='')
 lnwriter = csv.writer(file)
