@@ -141,7 +141,7 @@ while True:
     # display datetime
     date = now.strftime('%Y-%m-%d %H:%M:%S')
     
-    cv2.rectangle(frame, (0,0), (350, 30), (0, 255, 0), cv2.FILLED)
+    cv2.rectangle(frame, (0,0), (350, 30), (0, 0, 255), cv2.FILLED)
     
     font = cv2.FONT_HERSHEY_TRIPLEX 
     cv2.putText(frame, date, (5, 20), font, .8, (255, 255, 255), 1)
